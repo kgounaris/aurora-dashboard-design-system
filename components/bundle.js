@@ -84,6 +84,23 @@
     return { w: r.width || fallbackW, h: r.height || fallbackH };
   }
 
+  // Re-render a width-measuring chart when its container's width changes, so
+  // SVGs track the layout instead of freezing at their mount-time width.
+  // Skips while an explicit width is pinned; passes resize=true so renders
+  // triggered by a resize can suppress the intro animation. No-op where
+  // ResizeObserver is unavailable.
+  function autoResize(el, render, isPinned) {
+    if (typeof ResizeObserver === 'undefined') return { destroy: function () {} };
+    var lastW = el.getBoundingClientRect().width;
+    var ro = new ResizeObserver(function () {
+      if (isPinned && isPinned()) return;
+      var w = el.getBoundingClientRect().width;
+      if (w && Math.abs(w - lastW) > 0.5) { lastW = w; render(true); }
+    });
+    ro.observe(el);
+    return { destroy: function () { ro.disconnect(); } };
+  }
+
   // Adds <linearGradient> to defs; stops: [[offset, color], ...]
   function gradient(defs, id, stops, dir) {
     var g = defs.append('linearGradient').attr('id', id);
@@ -128,7 +145,8 @@
       area: true, glow: true, animate: true, curve: 'monotone'
     }, opts);
 
-    function render() {
+    function render(resize) {
+      var anim = state.animate && !resize;
       var t = T(el);
       var m = measure(el, 320, state.height);
       var w = state.width || m.w, h = state.height;
@@ -160,7 +178,7 @@
         dots.append('circle').attr('cx', x(i)).attr('cy', y(data[i])).attr('r', 3).attr('fill', t.accentPale);
       });
 
-      if (state.animate) {
+      if (anim) {
         var len = path.node().getTotalLength();
         path.attr('stroke-dasharray', len + ' ' + len).attr('stroke-dashoffset', len)
           .transition().duration(1100).ease(d3.easeCubicOut).attr('stroke-dashoffset', 0)
@@ -170,7 +188,8 @@
       svg.append('title').text('Trend: ' + data[0] + ' to ' + data[data.length - 1]);
     }
     render();
-    return { update: function (o) { Object.assign(state, o || {}); render(); }, destroy: function () { d3.select(el).selectAll('svg.au-svg').remove(); }, el: el };
+    var ro = autoResize(el, render, function () { return state.width != null; });
+    return { update: function (o) { Object.assign(state, o || {}); render(); }, destroy: function () { ro.destroy(); d3.select(el).selectAll('svg.au-svg').remove(); }, el: el };
   }
 
   /* ---------------------------------------------------------------- *
@@ -198,7 +217,8 @@
       return statusColors(role, t)[1];
     }
 
-    function render() {
+    function render(resize) {
+      var anim = state.animate && !resize;
       var t = T(el);
       d3.select(el).selectAll('.au-wave-wrap').remove();
       var wrap = d3.select(el).append('div').attr('class', 'au-wave-wrap').style('display', 'flex').style('flex-direction', state.legend === 'top' ? 'column-reverse' : 'column').style('gap', '10px');
@@ -225,7 +245,7 @@
       var paths = colored.map(function (c) {
         return svg.append('path').attr('class', 'au-wave-line').attr('d', line(c.sr.data)).attr('fill', 'none').attr('stroke', c.color).attr('stroke-width', state.strokeWidth).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
       });
-      if (state.animate) {
+      if (anim) {
         paths.forEach(function (p, i) {
           var len = p.node().getTotalLength();
           p.attr('stroke-dasharray', len + ' ' + len).attr('stroke-dashoffset', len)
@@ -246,7 +266,8 @@
       }
     }
     render();
-    return { update: function (o) { Object.assign(state, o || {}); render(); }, destroy: function () { d3.select(el).selectAll('.au-wave-wrap').remove(); }, el: el };
+    var ro = autoResize(el, render, function () { return state.width != null; });
+    return { update: function (o) { Object.assign(state, o || {}); render(); }, destroy: function () { ro.destroy(); d3.select(el).selectAll('.au-wave-wrap').remove(); }, el: el };
   }
 
   /* ---------------------------------------------------------------- *
@@ -366,7 +387,8 @@
       width: null, height: 150, barWidth: 7, glow: true, animate: true, tooltip: true, hover: true
     }, opts);
 
-    function render() {
+    function render(resize) {
+      var anim = state.animate && !resize;
       var t = T(el);
       var m = measure(el, 300, state.height);
       var w = state.width || m.w, h = state.height;
@@ -413,13 +435,14 @@
       }
       svg.append('title').text(data.map(function (d) { return d.label + ' ' + state.format(d.value); }).join(', '));
 
-      if (state.animate) {
+      if (anim) {
         bars.attr('y', bottom).attr('height', 0).transition().duration(700).delay(function (d, i) { return i * 60; }).ease(d3.easeCubicOut)
           .attr('y', function (d) { return y(d.value); }).attr('height', function (d) { return bottom - y(d.value); });
       }
     }
     render();
-    return { update: function (o) { Object.assign(state, o || {}); render(); }, destroy: function () { d3.select(el).selectAll('svg.au-svg').remove(); }, el: el };
+    var ro = autoResize(el, render, function () { return state.width != null; });
+    return { update: function (o) { Object.assign(state, o || {}); render(); }, destroy: function () { ro.destroy(); d3.select(el).selectAll('svg.au-svg').remove(); }, el: el };
   }
 
   /* ---------------------------------------------------------------- *
@@ -438,7 +461,8 @@
       color: null               // explicit token value; the light stop is derived from it
     }, opts);
 
-    function render() {
+    function render(resize) {
+      var anim = state.animate && !resize;
       var t = T(el);
       d3.select(el).selectAll('.au-bar-row').remove();
       var row = d3.select(el).append('div').attr('class', 'au-bar-row')
@@ -465,13 +489,14 @@
       var target = Math.max(h, w * Math.max(0, Math.min(1, state.value)));
       var g = state.glow ? svg.append('rect').attr('x', 0).attr('y', pad - 1).attr('height', h + 2).attr('rx', h / 2 + 1).attr('fill', c).attr('fill-opacity', 0.7).attr('filter', halo).attr('aria-hidden', 'true') : null;
       var bar = svg.append('rect').attr('class', 'au-bar-value').attr('x', 0).attr('y', pad).attr('height', h).attr('rx', h / 2).attr('fill', fill);
-      if (state.animate) {
+      if (anim) {
         bar.attr('width', 0).transition().duration(800).ease(d3.easeCubicOut).attr('width', target);
         if (g) g.attr('width', 0).transition().duration(800).ease(d3.easeCubicOut).attr('width', target);
       } else { bar.attr('width', target); if (g) g.attr('width', target); }
     }
     render();
-    return { update: function (o) { Object.assign(state, o || {}); render(); }, destroy: function () { d3.select(el).selectAll('.au-bar-row').remove(); }, el: el };
+    var ro = autoResize(el, render, function () { return false; });
+    return { update: function (o) { Object.assign(state, o || {}); render(); }, destroy: function () { ro.destroy(); d3.select(el).selectAll('.au-bar-row').remove(); }, el: el };
   }
 
 

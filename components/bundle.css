@@ -8,6 +8,7 @@
   position: relative;
   padding: var(--space-5, 22px);
   border-radius: var(--radius-xl, 18px);
+  overflow: hidden; /* contain chart glow halos (au-svg overflow is visible) within the card */
   background: var(--surface-100);
   border: 1px solid var(--border-100);
   box-shadow: var(--edge), var(--lift);

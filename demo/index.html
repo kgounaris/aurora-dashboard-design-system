@@ -11,9 +11,9 @@
 <style>
   body { margin: 0; min-height: 100vh; padding: 32px; font-family: var(--font-sans); color: var(--ink); background: var(--surface-000);
     background-image: radial-gradient(560px 560px at 100% 40%, var(--glow-warm), transparent 65%), radial-gradient(700px 460px at 52% 100%, var(--glow-cool), transparent 65%); }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; max-width: 1100px; margin: 0 auto; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; max-width: 1100px; margin: 0 auto; }
   .bar { max-width: 1100px; margin: 0 auto 20px; display: flex; justify-content: space-between; align-items: center; }
-  .gauges { display: grid; grid-template-columns: repeat(4, 1fr); justify-items: center; gap: 8px; }
+  .gauges { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); justify-items: center; gap: 8px; }
   .stack { display: flex; flex-direction: column; gap: 10px; }
 </style>
 </head>
@@ -43,10 +43,10 @@
   function mount() {
     charts.forEach(c => c.destroy()); charts.length = 0;
     charts.push(
-      A.RadialProgress('#cpu',  { value: 0.38, size: 92, thickness: 8, status: 'auto', label: '38%', sublabel: 'CPU' }),
-      A.RadialProgress('#mem',  { value: 0.72, size: 92, thickness: 8, status: 'auto', label: '72%', sublabel: 'Memory' }),
-      A.RadialProgress('#disk', { value: 0.94, size: 92, thickness: 8, status: 'auto', label: '94%', sublabel: 'Disk' }),
-      A.RadialProgress('#swap', { value: 0.12, size: 92, thickness: 8, status: 'auto', label: '12%', sublabel: 'Swap' }),
+      A.RadialProgress('#cpu',  { value: 0.38, size: 72, thickness: 8, status: 'auto', label: '38%', sublabel: 'CPU' }),
+      A.RadialProgress('#mem',  { value: 0.72, size: 72, thickness: 8, status: 'auto', label: '72%', sublabel: 'Memory' }),
+      A.RadialProgress('#disk', { value: 0.94, size: 72, thickness: 8, status: 'auto', label: '94%', sublabel: 'Disk' }),
+      A.RadialProgress('#swap', { value: 0.12, size: 72, thickness: 8, status: 'auto', label: '12%', sublabel: 'Swap' }),
       A.WaveLine('#lat', { height: 80, series: [
         { name: 'api-gateway', status: 'base',    data: [120,118,125,140,132,128,150,162,148,135,130,126,124] },
         { name: 'auth',        status: 'healthy', data: [60,62,58,61,64,60,63,66,62,59,61,60,58] },
