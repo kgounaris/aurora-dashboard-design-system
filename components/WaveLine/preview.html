@@ -1,0 +1,20 @@
+<!-- @dsCard group="Charts" height=170 subtitle="Multi-series comparison — one solid color per line, with legend" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>WaveLine — preview</title>
+<style>body{margin:0;background:var(--surface-000);padding:16px}</style></head>
+<body>
+<div class="au-chart" id="wave" style="width:460px"></div>
+<script>
+  Aurora.WaveLine('#wave', {
+    height: 90,
+    series: [
+      { name: 'api-gateway · p95 latency', status: 'base',    data: [120, 118, 125, 140, 132, 128, 150, 162, 148, 135, 130, 126, 124] },
+      { name: 'auth · p95 latency',        status: 'healthy', data: [ 60,  62,  58,  61,  64,  60,  63,  66,  62,  59,  61,  60,  58] },
+      { name: 'billing · p95 latency',     status: 'warning', data: [180, 190, 210, 240, 235, 260, 290, 310, 300, 280, 265, 250, 245] },
+      { name: 'search · p95 latency',      status: 'danger',  data: [200, 230, 260, 310, 380, 420, 470, 520, 560, 540, 510, 500, 495] }
+    ]
+  });
+</script>
+</body>
+</html>

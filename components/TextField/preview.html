@@ -1,0 +1,40 @@
+<!-- @dsCard group="Forms" height=330 subtitle="Input · with icon and action · select · textarea · error · disabled" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>TextField — preview</title>
+<style>body{margin:0;background:var(--surface-000);padding:16px;font-family:var(--font-sans)}.grid{display:grid;grid-template-columns:repeat(3,260px);gap:16px 20px}</style></head>
+<body>
+<div class="grid">
+  <div class="au-field">
+    <label class="au-label" for="f1">Email</label>
+    <div class="au-control"><input class="au-input" id="f1" type="email" placeholder="you@company.com" autocomplete="email"></div>
+    <div class="au-help">Use your work address.</div>
+  </div>
+  <div class="au-field">
+    <label class="au-label" for="f2">Password</label>
+    <div class="au-control au-has-icon au-has-action">
+      <svg class="au-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      <input class="au-input" id="f2" type="password" placeholder="••••••••" value="hunter2-but-longer" autocomplete="current-password">
+      <button class="au-action" type="button" aria-label="Show password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>
+    </div>
+  </div>
+  <div class="au-field">
+    <label class="au-label" for="f3">Region</label>
+    <div class="au-control au-select-wrap"><select class="au-select" id="f3"><option>Frankfurt (eu-central)</option><option>Athens (eu-south)</option><option>Dublin (eu-west)</option></select></div>
+  </div>
+  <div class="au-field au-invalid">
+    <label class="au-label" for="f4">Hostname</label>
+    <div class="au-control"><input class="au-input" id="f4" type="text" value="vps athens 01" aria-invalid="true" aria-describedby="f4h"></div>
+    <div class="au-help" id="f4h"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>Spaces are not allowed; use hyphens.</div>
+  </div>
+  <div class="au-field">
+    <label class="au-label" for="f5">API key <span class="au-optional">optional</span></label>
+    <div class="au-control"><input class="au-input" id="f5" type="text" placeholder="Generated after save" disabled></div>
+  </div>
+  <div class="au-field" style="grid-row:2 / span 2;grid-column:3">
+    <label class="au-label" for="f6">Notes</label>
+    <div class="au-control"><textarea class="au-textarea" id="f6" placeholder="What changed and why…" style="min-height:100%"></textarea></div>
+  </div>
+</div>
+</body>
+</html>

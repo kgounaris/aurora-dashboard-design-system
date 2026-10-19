@@ -1,0 +1,21 @@
+<!-- @dsCard group="Charts" height=220 subtitle="A ring driven by a clock — press Start" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>CountdownRing — preview</title>
+<style>body{margin:0;background:var(--surface-000);padding:16px}.col{display:flex;flex-direction:column;align-items:center;gap:14px;width:200px}</style></head>
+<body>
+<div class="col">
+  <div class="au-chart" id="timer"></div>
+  <button class="au-btn" id="go" type="button">Start</button>
+</div>
+<script>
+  var btn = document.getElementById('go');
+  var timer = Aurora.CountdownRing('#timer', {
+    seconds: 25 * 60,
+    caption: 'Deep Work',
+    onChange: function (s) { btn.textContent = s.running ? 'Pause' : (s.remaining === 0 ? 'Reset' : (s.remaining < s.total ? 'Resume' : 'Start')); }
+  });
+  btn.addEventListener('click', function () { timer.toggle(); });
+</script>
+</body>
+</html>

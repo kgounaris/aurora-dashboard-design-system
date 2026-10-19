@@ -1,0 +1,19 @@
+<!-- @dsCard group="Forms" height=150 subtitle="Checkbox · radio · switch, with help text and disabled" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Choice — preview</title>
+<style>body{margin:0;background:var(--surface-000);padding:16px;font-family:var(--font-sans)}.grid{display:grid;grid-template-columns:repeat(3,220px);gap:14px 24px;align-items:start}</style></head>
+<body>
+<div class="grid">
+  <label class="au-choice"><input type="checkbox" checked> Remember this device</label>
+  <label class="au-choice"><input type="radio" name="r" checked> Email alerts</label>
+  <label class="au-choice"><input type="checkbox" class="au-switch" checked> Maintenance mode</label>
+  <label class="au-choice"><input type="checkbox"> <span>Notify on resolve<span class="au-help">Also when an alert clears</span></span></label>
+  <label class="au-choice"><input type="radio" name="r"> Slack alerts</label>
+  <label class="au-choice"><input type="checkbox" class="au-switch"> Auto-restart services</label>
+  <label class="au-choice"><input type="checkbox" disabled> Require 2FA (managed)</label>
+  <label class="au-choice"><input type="radio" name="r" disabled> PagerDuty (not connected)</label>
+  <label class="au-choice"><input type="checkbox" class="au-switch" disabled checked> Backups (policy)</label>
+</div>
+</body>
+</html>

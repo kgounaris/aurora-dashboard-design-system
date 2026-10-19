@@ -1,0 +1,37 @@
+<!-- @dsCard group="Charts" height=330 subtitle="Base ring · the three health states · status 'auto' from utilization thresholds" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>RadialProgress — preview</title>
+<style>
+  body{margin:0;background:var(--surface-000);padding:16px;font-family:var(--font-sans,Inter,system-ui,sans-serif);color:var(--ink)}
+  .row{display:flex;align-items:flex-end;gap:36px;margin-bottom:22px}
+  .cell{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .cap{font-size:11px;color:var(--ink-muted);text-align:center;line-height:14px}
+  .cap b{display:block;font-weight:600;color:var(--ink)}
+</style></head>
+<body>
+<div class="row">
+  <div class="cell"><div class="au-chart" id="base"></div><div class="cap"><b>Base</b>status: 'base' · progress</div></div>
+  <div class="cell"><div class="au-chart" id="healthy"></div><div class="cap"><b>Healthy</b>status: 'healthy'</div></div>
+  <div class="cell"><div class="au-chart" id="warning"></div><div class="cap"><b>Warning</b>status: 'warning'</div></div>
+  <div class="cell"><div class="au-chart" id="danger"></div><div class="cap"><b>Danger</b>status: 'danger'</div></div>
+</div>
+<div class="row">
+  <div class="cell"><div class="au-chart" id="a1"></div><div class="cap"><b>CPU 38%</b>auto → healthy (≤ 50%)</div></div>
+  <div class="cell"><div class="au-chart" id="a2"></div><div class="cap"><b>Memory 72%</b>auto → warning (50–90%)</div></div>
+  <div class="cell"><div class="au-chart" id="a3"></div><div class="cap"><b>Disk 94%</b>auto → danger (&gt; 90%)</div></div>
+  <div class="cell"><div class="au-chart" id="a4"></div><div class="cap"><b>Uptime 99.9%</b>status: 'healthy' (not a utilization)</div></div>
+</div>
+<script>
+  Aurora.RadialProgress('#base',    { value: 0.78, size: 96, thickness: 8, label: '78%', sublabel: 'Progress' });
+  Aurora.RadialProgress('#healthy', { value: 0.38, size: 96, thickness: 8, status: 'healthy', label: '38%', sublabel: 'Healthy' });
+  Aurora.RadialProgress('#warning', { value: 0.72, size: 96, thickness: 8, status: 'warning', label: '72%', sublabel: 'Warning' });
+  Aurora.RadialProgress('#danger',  { value: 0.94, size: 96, thickness: 8, status: 'danger',  label: '94%', sublabel: 'Danger' });
+
+  Aurora.RadialProgress('#a1', { value: 0.38,  size: 96, thickness: 8, status: 'auto', label: '38%', sublabel: 'CPU' });
+  Aurora.RadialProgress('#a2', { value: 0.72,  size: 96, thickness: 8, status: 'auto', label: '72%', sublabel: 'Memory' });
+  Aurora.RadialProgress('#a3', { value: 0.94,  size: 96, thickness: 8, status: 'auto', label: '94%', sublabel: 'Disk' });
+  Aurora.RadialProgress('#a4', { value: 0.999, size: 96, thickness: 8, status: 'healthy', label: '99.9%', sublabel: 'Uptime' });
+</script>
+</body>
+</html>

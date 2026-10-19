@@ -1,0 +1,37 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Aurora — cover</title>
+<style>
+  body{margin:0;background:var(--surface-000)}
+  .cover{position:relative;width:960px;height:288px;font-family:var(--font-sans,Inter,system-ui,sans-serif)}
+  .name{position:absolute;left:48px;bottom:60px;margin:0;font-size:120px;line-height:.92;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+  .tag{position:absolute;left:48px;bottom:34px;margin:0;font-size:13px;line-height:16px;color:var(--ink-muted);max-width:440px}
+  svg{position:absolute;inset:0}
+  .accent{fill:var(--accent)} .ember{fill:var(--ember)} .violet{fill:var(--violet)} .pale{fill:var(--accent-pale)} .ink{fill:var(--ink-secondary)}
+  .ring{fill:none;stroke-width:8;stroke-linecap:round} .ring-pale{stroke:var(--accent-pale)} .ring-ember{stroke:var(--ember-soft)} .ring-ground{stroke:var(--surface-000)}
+  .tile{rx:var(--radius-xl)}
+</style></head>
+<body>
+<div class="cover">
+  <!--
+    blocks: accent 288×160, ember 160×96, violet 96×96, ink-secondary 96×160, accent-pale 160×64 — sides are space-4/space-5/space-6 multiples (96=4×24, 160=10×16, 288=18×16); corners radius-xl (18)
+    arrangement: a tall accent slab bleeding off the top edge with ember, violet and pale satellites stepping down to the right; the ink slab anchors the right edge
+    pattern: arcs — Aurora's identity mark is the glowing ring, so three quarter-ring arcs (stroke 8 = ring thickness) cut across the blocks in accent-pale, ember-soft and the ground
+    scales: pitch 24 (space-6), arc radii 48/72/96 (space-6 multiples), corner radius 18 (radius-xl)
+  -->
+  <svg viewBox="0 0 960 288" aria-hidden="true">
+    <rect class="accent tile" x="504" y="-24" width="288" height="160"/>
+    <rect class="ember tile" x="816" y="24" width="120" height="96"/>
+    <rect class="violet tile" x="504" y="160" width="96" height="96"/>
+    <rect class="pale tile" x="624" y="160" width="168" height="64"/>
+    <rect class="ink tile" x="816" y="144" width="120" height="160"/>
+    <path class="ring ring-pale" d="M552 136 A96 96 0 0 1 648 40"/>
+    <path class="ring ring-ground" d="M696 136 A72 72 0 0 1 768 64"/>
+    <path class="ring ring-ember" d="M864 304 A48 48 0 0 1 912 256"/>
+  </svg>
+  <h1 class="name">Aurora</h1>
+  <p class="tag">Glass surfaces lit from behind, charts drawn in light.</p>
+</div>
+</body>
+</html>

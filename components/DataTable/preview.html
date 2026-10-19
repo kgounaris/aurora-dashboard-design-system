@@ -1,0 +1,37 @@
+<!-- @dsCard group="Data" height=330 subtitle="Log table: time · level · service · message · latency — click a header to sort" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>DataTable — preview</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>body{margin:0;background:var(--surface-000);padding:16px}</style></head>
+<body>
+<div class="au-chart" id="logs" style="width:760px"></div>
+<script>
+  Aurora.DataTable('#logs', {
+    caption: 'Application logs, last 15 minutes',
+    maxHeight: 262,
+    rowKey: 'id',
+    sortBy: { key: 'time', dir: 'desc' },
+    columns: [
+      { key: 'time',    label: 'Time',    type: 'time',   width: 112 },
+      { key: 'level',   label: 'Level',   type: 'level',  width: 92 },
+      { key: 'service', label: 'Service', type: 'text',   width: 120 },
+      { key: 'message', label: 'Message', type: 'mono' },
+      { key: 'ms',      label: 'Latency', type: 'number', width: 84, format: function (v) { return v == null ? '—' : v + ' ms'; } }
+    ],
+    rows: [
+      { id: 1, time: '11:42:07.318', level: 'error', service: 'queue-worker', message: 'OOMKilled: container exceeded memory limit (512Mi); restarting (5/5)', ms: null },
+      { id: 2, time: '11:41:58.004', level: 'warn',  service: 'redis',        message: 'maxmemory 92% reached; evicting keys with allkeys-lru', ms: null },
+      { id: 3, time: '11:41:52.771', level: 'info',  service: 'api-gateway',  message: 'GET /api/v1/orders?page=3 200', ms: 142 },
+      { id: 4, time: '11:41:51.209', level: 'info',  service: 'auth',         message: 'POST /oauth/token 200 client=mobile', ms: 61 },
+      { id: 5, time: '11:41:49.880', level: 'warn',  service: 'billing',      message: 'Stripe webhook retry 2/5: timeout after 5000 ms', ms: 5003 },
+      { id: 6, time: '11:41:47.115', level: 'error', service: 'search',       message: 'ES cluster health YELLOW: 3 unassigned shards', ms: 522 },
+      { id: 7, time: '11:41:44.502', level: 'debug', service: 'api-gateway',  message: 'cache miss key=orders:page:3 ttl=120', ms: 3 },
+      { id: 8, time: '11:41:40.090', level: 'info',  service: 'postgresql',   message: 'checkpoint complete: wrote 1842 buffers (11.2%)', ms: null },
+      { id: 9, time: '11:41:33.611', level: 'ok',    service: 'backup',       message: 'snapshot vps-athens-01-20261019 verified (41.2 GB)', ms: null }
+    ],
+    onRowClick: function (row) { console.log('open log', row.id); }
+  });
+</script>
+</body>
+</html>
